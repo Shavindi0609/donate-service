@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/donations")
+@RequestMapping("/api/v1/donations")
 public class DonateController {
 
     @Autowired
@@ -30,5 +30,24 @@ public class DonateController {
         Donate donate = donateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Donation not found with id: " + id));
         return ResponseEntity.ok(donate);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Donate> updateDonation(@PathVariable Long id, @RequestBody Donate updatedDonate) {
+        Donate donate = donateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Donation not found with id: " + id));
+
+        donate.setDonorName(updatedDonate.getDonorName());
+        donate.setAmount(updatedDonate.getAmount());
+        donate.setMessage(updatedDonate.getMessage());
+
+        Donate savedDonate = donateRepository.save(donate);
+        return ResponseEntity.ok(savedDonate);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDonation(@PathVariable Long id) {
+        donateRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
