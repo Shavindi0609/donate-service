@@ -1,0 +1,25 @@
+#spring:
+#  application:
+#    name: DONATE-SERVICE
+#  config:
+#    import: optional:configserver:http://localhost:8888
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#
+#
+#
+#
+
+spring:
+  application:
+    name: DONATE-SERVICE
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  cloud:
+    config:
+      uri: http://localhost:8888
